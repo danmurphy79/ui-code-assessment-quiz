@@ -98,6 +98,7 @@ const Question: React.FC<QuestionProps> = ({
                     name="answer"
                     id={answer}
                     value={chosenAnswer}
+                    style={{ marginLeft: 0 }}
                   ></input>
                   <label htmlFor={answer}> {answer}</label>
                 </div>
