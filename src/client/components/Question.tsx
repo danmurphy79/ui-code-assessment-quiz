@@ -30,22 +30,34 @@ const Question: React.FC<QuestionProps> = ({
 
   const [chosenAnswer, setAnswer] = useState<string>("");
 
-  // TODO; Figure out a way to shuffle these answers so that it's not always the last answer that is correct.
-  const allAnswers: string[] =
-    currentQuestion!.type !== "text"
-      ? currentQuestion!.incorrect_answers.concat(
-          currentQuestion!.correct_answer
-        )
-      : [];
+  // TODO; Move this to helpers.ts when #4 is merged. Figure out a way to shuffle these answers so that it's not always the last answer that is correct.
+  const getAllAnswers = (type: string, wrong: string[], right: string) => {
+    if (type !== "text") {
+      return wrong.concat(right);
+      // .map((a) => ({ sort: Math.random(), value: a }))
+      // .sort((a, b) => a.sort - b.sort)
+      // .map((a) => a.value);
+    }
+    return [];
+  };
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const allAnswers = getAllAnswers(
+    currentQuestion!.type,
+    currentQuestion!.incorrect_answers,
+    currentQuestion!.correct_answer
+  );
+
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
   //TODO: type the event
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (chosenAnswer === currentQuestion?.correct_answer) {
+    if (
+      chosenAnswer.toLowerCase() ===
+      currentQuestion?.correct_answer.toLowerCase()
+    ) {
       setCorrectAnswerCount(correctAnswerCount + 1);
     } else {
       setWrongAnswerCount(wrongAnswerCount + 1);
@@ -68,7 +80,7 @@ const Question: React.FC<QuestionProps> = ({
                   name={`answer${i}`}
                   value={answer}
                   checked={chosenAnswer === answer}
-                  onChange={handleOptionChange}
+                  onChange={handleAnswerChange}
                 />
                 {answer}
               </label>
@@ -76,7 +88,7 @@ const Question: React.FC<QuestionProps> = ({
           );
         })
       ) : (
-        <input type="text"></input>
+        <input onChange={handleAnswerChange} type="text"></input>
       )}
       <button type="submit">Next</button>
     </form>
