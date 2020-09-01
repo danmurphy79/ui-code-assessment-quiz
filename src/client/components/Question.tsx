@@ -35,10 +35,10 @@ const Question: React.FC<QuestionProps> = ({
   }>(questions[0]);
 
   const [chosenAnswer, setAnswer] = useState<any>();
-  useEffect(() => {
-    setCurrentQuestion(questions[1]);
-    setAnswer("");
-  }, [questionCount]);
+  // useEffect(() => {
+  //   setCurrentQuestion(questions[questionCount - 1]);
+  //   setAnswer("");
+  // }, [questionCount]);
 
   const allAnswers =
     currentQuestion!.type !== "text"
@@ -47,44 +47,42 @@ const Question: React.FC<QuestionProps> = ({
         )
       : [];
 
-  const handleClick = () => {
-    console.log("click");
-    console.log(questionCount);
-    // if (chosenAnswer === currentQuestion!.correct_answer) {
-    //   setCorrectAnswerCount(correctAnswerCount++);
-    // } else {
-    //   setWrongAnswerCount(wrongAnswerCount++);
-    // }
+  //TODO: type the event
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (chosenAnswer === currentQuestion!.correct_answer) {
+      console.log("click");
+      setCorrectAnswerCount(correctAnswerCount++);
+    } else {
+      setWrongAnswerCount(wrongAnswerCount++);
+    }
     setQuestionCount(questionCount++);
-    console.log(questionCount);
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div>{currentQuestion!.question}</div>
 
       {currentQuestion!.type !== "text" ? (
-        <form>
-          {allAnswers.map((answer, i) => {
-            return (
-              <div key={i}>
-                <input
-                  onChange={(e) => setAnswer(e.target.value)}
-                  type="radio"
-                  name="answer"
-                  id={answer}
-                  value={chosenAnswer}
-                ></input>
-                <label htmlFor={answer}> {answer}</label>
-              </div>
-            );
-          })}
-        </form>
+        allAnswers.map((answer, i) => {
+          return (
+            <div key={i}>
+              <input
+                onChange={(e) => setAnswer(e.target.value)}
+                type="radio"
+                name="answer"
+                id={answer}
+                value={chosenAnswer}
+              ></input>
+              <label htmlFor={answer}> {answer}</label>
+            </div>
+          );
+        })
       ) : (
         <input type="text"></input>
       )}
-      <button onClick={handleClick}>Next</button>
-    </>
+      <button type="submit">Next</button>
+    </form>
   );
 };
 
