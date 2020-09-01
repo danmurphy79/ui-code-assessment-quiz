@@ -10,6 +10,7 @@ const data = require("./data.json");
 const server = express();
 const port = 4000;
 
+server.use(cors());
 // Use graphqlhttp middleware
 server.use(
   "/graphql",
@@ -20,7 +21,7 @@ server.use(
 );
 
 // GET question endpoint
-server.get("/api/questions", cors(), (req, res) => {
+server.get("/api/questions", (req, res) => {
   res.json(data);
 });
 
