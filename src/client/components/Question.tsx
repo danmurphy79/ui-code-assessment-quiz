@@ -60,31 +60,83 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   return (
-    <>
-      <div>{currentQuestion!.question}</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div>
+        <h3
+          style={{
+            fontWeight: 100,
+            fontSize: "20px",
+          }}
+        >
+          {currentQuestion!.question}
+        </h3>
+      </div>
 
-      {currentQuestion!.type !== "text" ? (
-        <form>
-          {allAnswers.map((answer, i) => {
-            return (
-              <div key={i}>
-                <input
-                  onChange={(e) => setAnswer(e.target.value)}
-                  type="radio"
-                  name="answer"
-                  id={answer}
-                  value={chosenAnswer}
-                ></input>
-                <label htmlFor={answer}> {answer}</label>
-              </div>
-            );
-          })}
-        </form>
-      ) : (
-        <input type="text"></input>
-      )}
-      <button onClick={handleClick}>Next</button>
-    </>
+      <form>
+        {currentQuestion!.type !== "text" ? (
+          <div style={{ marginBottom: "28px" }}>
+            {allAnswers.map((answer, i) => {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 100,
+                    marginBottom: "10px",
+                  }}
+                >
+                  <input
+                    onChange={(e) => setAnswer(e.target.value)}
+                    type="radio"
+                    name="answer"
+                    id={answer}
+                    value={chosenAnswer}
+                  ></input>
+                  <label htmlFor={answer}> {answer}</label>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{ marginBottom: "16px" }}>
+            <input
+              type="text"
+              style={{
+                width: "100%",
+                padding: "12px 20px",
+                margin: "8px 0",
+                display: "inline-block",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                boxSizing: "border-box",
+                fontSize: "16px",
+              }}
+            ></input>
+          </div>
+        )}
+      </form>
+      <button
+        style={{
+          borderRadius: "none",
+          padding: "10px 20px",
+          backgroundColor: "#1e70dd",
+          border: "none",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "lighter",
+        }}
+        onClick={handleClick}
+      >
+        Next
+      </button>
+    </div>
   );
 };
 
