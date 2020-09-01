@@ -16,22 +16,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-//TODO: remove this sample code
-client
-  .query({
-    query: gql`
-      {
-        questions {
-          question
-          type
-          correct_answer
-          incorrect_answers
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result));
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
