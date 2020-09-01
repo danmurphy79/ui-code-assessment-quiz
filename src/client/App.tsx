@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Question from "./components/Question";
 
 //TODO: Remove this hardcoded array when I'm pulling in data from GraphQL
@@ -37,12 +37,26 @@ const questions = [
   },
 ];
 
-export const App: React.FC = () => (
-  <div
-    style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-  >
-    <h1>Lucid</h1>
-    <h2>Welcome to UI Team code assessment!</h2>
-    <Question questions={questions} />
-  </div>
-);
+export const App: React.FC = () => {
+  //TODO: put these pieces of state in a context wrapper
+  const [questionCount, setQuestionCount] = useState<number>(0);
+  const [correctAnswerCount, setCorrectAnswerCount] = useState<number>(0);
+  const [wrongAnswerCount, setWrongAnswerCount] = useState<number>(0);
+  return (
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <h1>Lucid</h1>
+      <h2>Welcome to UI Team code assessment!</h2>
+      <Question
+        questions={questions}
+        questionCount={questionCount}
+        setQuestionCount={setQuestionCount}
+        correctAnswerCount={correctAnswerCount}
+        setCorrectAnswerCount={setCorrectAnswerCount}
+        wrongAnswerCount={wrongAnswerCount}
+        setWrongAnswerCount={setWrongAnswerCount}
+      />
+    </div>
+  );
+};
