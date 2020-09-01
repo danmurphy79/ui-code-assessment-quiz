@@ -15,13 +15,13 @@ const QUESTIONS = gql`
 `;
 
 export const App: React.FC = () => {
-  const { loading, error, data } = useQuery(QUESTIONS);
+  const { loading, error, data, refetch } = useQuery(QUESTIONS);
   const [questionCount, setQuestionCount] = useState<number>(0);
   const [correctAnswerCount, setCorrectAnswerCount] = useState<number>(0);
   const [wrongAnswerCount, setWrongAnswerCount] = useState<number>(0);
 
   const handleRestartQuiz = () => {
-    // I need some way of getting new questions here
+    refetch();
     setQuestionCount(0);
     setCorrectAnswerCount(0);
     setWrongAnswerCount(0);
