@@ -28,42 +28,36 @@ const Question: React.FC<QuestionProps> = ({
     type: string;
   }>(questions[0]);
 
-  const [chosenAnswer, setAnswer] = useState<any>("");
-  // there's something wrong with the way I'm using useEffect here
-  // TODO: Fix it
-  useEffect(() => {
-    setCurrentQuestion(questions[questionCount + 1]);
-    setAnswer("");
-  }, [questionCount]);
+  const [chosenAnswer, setAnswer] = useState<string>("");
 
-  const allAnswers =
+  // TODO; Figure out a way to shuffle these answers so that it's not always the last answer that is correct.
+  const allAnswers: string[] =
     currentQuestion!.type !== "text"
       ? currentQuestion!.incorrect_answers.concat(
           currentQuestion!.correct_answer
         )
       : [];
 
-  const handleOptionChange = (e: any) => {
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
   //TODO: type the event
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`You picked ${chosenAnswer}`);
     if (chosenAnswer === currentQuestion?.correct_answer) {
-      console.log(correctAnswerCount);
       setCorrectAnswerCount(correctAnswerCount + 1);
+    } else {
+      setWrongAnswerCount(wrongAnswerCount + 1);
     }
-    // chosenAnswer === currentQuestion?.correct_answer
-    //   ? setCorrectAnswerCount(correctAnswerCount++)
-    //   : setWrongAnswerCount(wrongAnswerCount++);
+    setQuestionCount(questionCount + 1);
+    setCurrentQuestion(questions[questionCount + 1]);
+    setAnswer("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>{currentQuestion!.question}</div>
-
       {currentQuestion!.type !== "text" ? (
         allAnswers.map((answer, i) => {
           return (
