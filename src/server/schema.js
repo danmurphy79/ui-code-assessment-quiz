@@ -5,6 +5,7 @@ const {
   GraphQLSchema,
 } = require("graphql");
 const Axios = require("axios");
+const sampleSize = require("lodash/_baseSampleSize");
 
 const QuestionType = new GraphQLObjectType({
   name: "Question",
@@ -23,9 +24,10 @@ const RootQuery = new GraphQLObjectType({
     questions: {
       type: new GraphQLList(QuestionType),
       resolve(parent, args) {
-        return Axios.get("http://localhost:4000/api/questions").then(
-          (res) => res.data.results
-        );
+        return Axios.get("http://localhost:4000/api/questions").then((res) => {
+          const fiveRandomQuestions = sampleSize(res.data.results, 5);
+          return fiveRandomQuestions;
+        });
       },
     },
   },
