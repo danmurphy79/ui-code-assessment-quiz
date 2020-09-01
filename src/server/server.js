@@ -11,6 +11,7 @@ const server = express();
 const port = 4000;
 
 server.use(cors());
+
 // Use graphqlhttp middleware
 server.use(
   "/graphql",
