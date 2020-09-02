@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { formatString } from "../helpers";
 import Question from "./components/Question";
 import Summary from "./components/Summary";
 
@@ -36,7 +35,9 @@ export const App: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start",
+        fontFamily: "sans-serif",
+        margin: "0 30%",
       }}
     >
       {questionCount < 5 ? (
