@@ -31,6 +31,10 @@ export const App: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  // NOTE: I'm using inline styles here because that was how the original file was set up, and Amber suggested I not make it too complicated. If this was a bigger app in a real-world scenario, I would have chosen styled components, or, if I was in a hurry to bang something out, the Material-UI library.
+
+  // Also, styles were approximated to the best of my ability. In a real-world project I would have consulted the mockups or the designer for type and color specs.
+
   return (
     <div
       style={{
