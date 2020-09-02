@@ -1,6 +1,6 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { shuffle } from "lodash";
 
-// TODO: Uncomment when this is being passed down
 export interface QuestionProps {
   questions: Array<any>;
   questionCount: number;
@@ -20,7 +20,6 @@ const Question: React.FC<QuestionProps> = ({
   wrongAnswerCount,
   setWrongAnswerCount,
 }) => {
-  //TODO: handle the randomness in the GraphQL query
   const [currentQuestion, setCurrentQuestion] = useState<null | {
     correct_answer: string;
     incorrect_answers: [string];
@@ -28,30 +27,33 @@ const Question: React.FC<QuestionProps> = ({
     type: string;
   }>(questions[0]);
 
+  const [answers, setAnswers] = useState<string[]>([]);
   const [chosenAnswer, setAnswer] = useState<string>("");
 
-  // TODO; Move this to helpers.ts when #4 is merged. Figure out a way to shuffle these answers so that it's not always the last answer that is correct.
+  // TODO; Move this to helpers.ts when #4 is merged.
   const getAllAnswers = (type: string, wrong: string[], right: string) => {
     if (type !== "text") {
       return wrong.concat(right);
-      // .map((a) => ({ sort: Math.random(), value: a }))
-      // .sort((a, b) => a.sort - b.sort)
-      // .map((a) => a.value);
     }
     return [];
   };
 
-  const allAnswers = getAllAnswers(
-    currentQuestion!.type,
-    currentQuestion!.incorrect_answers,
-    currentQuestion!.correct_answer
-  );
+  // This shuffles the answers each time question count is changed. I have a feeling there's a better way, but this works for now.
+  useEffect(() => {
+    const allAnswers = getAllAnswers(
+      currentQuestion!.type,
+      currentQuestion!.incorrect_answers,
+      currentQuestion!.correct_answer
+    );
+
+    const shuffledAnswers = shuffle([...allAnswers]);
+    setAnswers(shuffledAnswers);
+  }, [questionCount]);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
-  //TODO: type the event
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -71,7 +73,7 @@ const Question: React.FC<QuestionProps> = ({
     <form onSubmit={handleSubmit}>
       <div>{currentQuestion!.question}</div>
       {currentQuestion!.type !== "text" ? (
-        allAnswers.map((answer, i) => {
+        answers.map((answer, i) => {
           return (
             <div key={i}>
               <label>
