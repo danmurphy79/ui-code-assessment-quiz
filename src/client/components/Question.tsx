@@ -36,27 +36,28 @@ const Question: React.FC<QuestionProps> = ({
   const [chosenAnswer, setAnswer] = useState<string>("");
   const formattedQuestion = formatString(currentQuestion.question);
 
-  // This shuffles the answers each time question count is changed. I have a feeling there's a better way, but this works for now.
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswer(e.target.value);
+  };
+
+  // This shuffles the answers each time question count is changed. I have a feeling there's a better way, perhaps by handling it on the call to graphQL, but this works for now.
   useEffect(() => {
     const allAnswers = getAllAnswers(
       currentQuestion.type,
       currentQuestion.incorrect_answers,
       currentQuestion.correct_answer
     );
+
     const formattedAnswers = allAnswers.map((answer) => formatString(answer));
     const shuffledAnswers = shuffle(formattedAnswers);
 
     setAnswers(shuffledAnswers);
-  }, [questionCount]);
-
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value);
-  };
+  }, [currentQuestion]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (chosenAnswer === "") {
-      alert("You need to choose and answer.");
+      alert("You need to choose an answer.");
       return;
     }
     if (
