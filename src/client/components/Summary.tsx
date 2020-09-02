@@ -13,7 +13,7 @@ const Summary: React.FC<SummaryProps> = ({
   questionCount,
   handleRestartQuiz,
 }) => {
-  const score = (correctAnswerCount / questionCount) * 100;
+  const score: number = (correctAnswerCount / questionCount) * 100;
 
   return (
     <div>

@@ -34,11 +34,7 @@ const Question: React.FC<QuestionProps> = ({
 
   const [answers, setAnswers] = useState<string[]>([]);
   const [chosenAnswer, setAnswer] = useState<string>("");
-  const formattedQuestion = formatString(currentQuestion.question);
-
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value);
-  };
+  const formattedQuestion: string = formatString(currentQuestion.question);
 
   // This shuffles the answers each time question count is changed. I have a feeling there's a better way, perhaps by handling it on the call to graphQL, but this works for now.
   useEffect(() => {
@@ -53,6 +49,10 @@ const Question: React.FC<QuestionProps> = ({
 
     setAnswers(shuffledAnswers);
   }, [currentQuestion]);
+
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswer(e.target.value);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,7 +129,6 @@ const Question: React.FC<QuestionProps> = ({
         ></input>
       )}
       <button
-        // I don't know how to control active state here, but I need to to avoid the :active button having a borderRadius. Investigating.
         style={{
           borderRadius: 0,
           padding: "10px 20px",
