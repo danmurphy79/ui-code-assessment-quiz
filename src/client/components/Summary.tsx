@@ -16,14 +16,40 @@ const Summary: React.FC<SummaryProps> = ({
   const score = (correctAnswerCount / questionCount) * 100;
 
   return (
-    <>
-      <div>SUMMARY</div>
-      <div>Correct: {correctAnswerCount}</div>
-      <div>Wrong: {wrongAnswerCount}</div>
-      <div>Questions Answered: {questionCount}</div>
-      <div>Final Score: {score}%</div>
-      <button onClick={handleRestartQuiz}>Restart Quiz</button>
-    </>
+    <div>
+      <h1 style={{ fontWeight: 900, fontSize: "24px", marginBottom: "16px" }}>
+        SUMMARY
+      </h1>
+      <div style={{ lineHeight: ".5", marginBottom: "30px" }}>
+        <p>
+          Correct: <span style={{ fontWeight: 900 }}>{correctAnswerCount}</span>
+        </p>
+        <p>
+          Wrong: <span style={{ fontWeight: 900 }}>{wrongAnswerCount}</span>
+        </p>
+        <p>
+          Questions Answered:{" "}
+          <span style={{ fontWeight: 900 }}>{questionCount}</span>
+        </p>
+        <p>
+          Final Score: <span style={{ fontWeight: 900 }}>{score}%</span>
+        </p>
+      </div>
+      <button
+        style={{
+          borderRadius: 0,
+          padding: "10px 20px",
+          backgroundColor: "#1e70dd",
+          border: "none",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "lighter",
+        }}
+        onClick={handleRestartQuiz}
+      >
+        Restart Quiz
+      </button>
+    </div>
   );
 };
 
