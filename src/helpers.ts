@@ -1,6 +1,6 @@
 import { unescape, replace } from "lodash";
 
-export function formatString(string: string) {
+export function formatString(string: string): string {
   // edge case - &#039; isn't converted by _.unescape()
   if (string.includes("&#039;")) {
     const apostropheString = replace(string, "&#039;", "&#39;");
@@ -11,7 +11,11 @@ export function formatString(string: string) {
   return formattedString;
 }
 
-export function getAllAnswers(type: string, wrong: string[], right: string) {
+export function getAllAnswers(
+  type: string,
+  wrong: string[],
+  right: string
+): string[] {
   if (type !== "text") {
     return wrong.concat(right);
   }
