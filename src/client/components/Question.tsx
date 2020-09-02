@@ -55,6 +55,10 @@ const Question: React.FC<QuestionProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (chosenAnswer === "") {
+      alert("You need to choose and answer.");
+      return;
+    }
     if (
       chosenAnswer.toLowerCase() ===
       currentQuestion.correct_answer.toLowerCase()
@@ -70,28 +74,74 @@ const Question: React.FC<QuestionProps> = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>{formattedQuestion}</div>
+      <h3
+        style={{
+          fontWeight: 100,
+          fontSize: "20px",
+        }}
+      >
+        {formattedQuestion}
+      </h3>
       {currentQuestion.type !== "text" ? (
-        answers.map((answer, i) => {
-          return (
-            <div key={i}>
-              <label>
-                <input
-                  type="radio"
-                  name={`answer${i}`}
-                  value={answer}
-                  checked={chosenAnswer === answer}
-                  onChange={handleAnswerChange}
-                />
-                {answer}
-              </label>
-            </div>
-          );
-        })
+        <div style={{ marginBottom: "28px" }}>
+          {answers.map((answer, i) => {
+            return (
+              <div
+                key={i}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 100,
+                  marginBottom: "10px",
+                }}
+              >
+                <label>
+                  <input
+                    type="radio"
+                    name={`answer${i}`}
+                    value={answer}
+                    checked={chosenAnswer === answer}
+                    onChange={handleAnswerChange}
+                    style={{ marginLeft: 0, marginRight: "5px" }}
+                  />
+                  {answer}
+                </label>
+              </div>
+            );
+          })}
+        </div>
       ) : (
-        <input onChange={handleAnswerChange} type="text"></input>
+        <input
+          onChange={handleAnswerChange}
+          type="text"
+          value={chosenAnswer}
+          style={{
+            width: "100%",
+            padding: "12px 20px",
+            margin: "8px 0",
+            display: "inline-block",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxSizing: "border-box",
+            fontSize: "16px",
+            marginBottom: "28px",
+          }}
+        ></input>
       )}
-      <button type="submit">Next</button>
+      <button
+        // I don't know how to control active state here, but I need to to avoid the :active button having a borderRadius. Investigating.
+        style={{
+          borderRadius: 0,
+          padding: "10px 20px",
+          backgroundColor: "#1e70dd",
+          border: "none",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "lighter",
+        }}
+        type="submit"
+      >
+        Next
+      </button>
     </form>
   );
 };
