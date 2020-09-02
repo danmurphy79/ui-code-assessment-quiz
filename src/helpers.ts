@@ -10,3 +10,10 @@ export function formatString(string: string) {
   const formattedString = unescape(string);
   return formattedString;
 }
+
+export function getAllAnswers(type: string, wrong: string[], right: string) {
+  if (type !== "text") {
+    return wrong.concat(right);
+  }
+  return [];
+}
