@@ -1,5 +1,6 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import { shuffle } from "lodash";
+import { formatString } from "../../helpers";
 
 export interface QuestionProps {
   questions: Array<any>;
@@ -11,6 +12,13 @@ export interface QuestionProps {
   setWrongAnswerCount: Dispatch<SetStateAction<number>>;
 }
 
+export interface CurrentQuestionProps {
+  correct_answer: string;
+  incorrect_answers: [string];
+  question: string;
+  type: string;
+}
+
 const Question: React.FC<QuestionProps> = ({
   questions,
   questionCount,
@@ -20,12 +28,9 @@ const Question: React.FC<QuestionProps> = ({
   wrongAnswerCount,
   setWrongAnswerCount,
 }) => {
-  const [currentQuestion, setCurrentQuestion] = useState<null | {
-    correct_answer: string;
-    incorrect_answers: [string];
-    question: string;
-    type: string;
-  }>(questions[0]);
+  const [currentQuestion, setCurrentQuestion] = useState<CurrentQuestionProps>(
+    questions[0]
+  );
 
   const [answers, setAnswers] = useState<string[]>([]);
   const [chosenAnswer, setAnswer] = useState<string>("");
@@ -41,14 +46,17 @@ const Question: React.FC<QuestionProps> = ({
   // This shuffles the answers each time question count is changed. I have a feeling there's a better way, but this works for now.
   useEffect(() => {
     const allAnswers = getAllAnswers(
-      currentQuestion!.type,
-      currentQuestion!.incorrect_answers,
-      currentQuestion!.correct_answer
+      currentQuestion.type,
+      currentQuestion.incorrect_answers,
+      currentQuestion.correct_answer
     );
+    const formattedAnswers = allAnswers.map((answer) => formatString(answer));
+    const shuffledAnswers = shuffle(formattedAnswers);
 
-    const shuffledAnswers = shuffle([...allAnswers]);
     setAnswers(shuffledAnswers);
   }, [questionCount]);
+
+  const formattedQuestion = formatString(currentQuestion.question);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
@@ -58,7 +66,7 @@ const Question: React.FC<QuestionProps> = ({
     e.preventDefault();
     if (
       chosenAnswer.toLowerCase() ===
-      currentQuestion?.correct_answer.toLowerCase()
+      currentQuestion.correct_answer.toLowerCase()
     ) {
       setCorrectAnswerCount(correctAnswerCount + 1);
     } else {
@@ -71,8 +79,8 @@ const Question: React.FC<QuestionProps> = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>{currentQuestion!.question}</div>
-      {currentQuestion!.type !== "text" ? (
+      <div>{formattedQuestion}</div>
+      {currentQuestion.type !== "text" ? (
         answers.map((answer, i) => {
           return (
             <div key={i}>

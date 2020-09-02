@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
+import { formatString } from "../helpers";
 import Question from "./components/Question";
 import Summary from "./components/Summary";
 
