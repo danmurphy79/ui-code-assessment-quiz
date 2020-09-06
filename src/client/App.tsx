@@ -17,13 +17,12 @@ const QUESTIONS = gql`
 export const App: React.FC = () => {
   const { loading, error, data, refetch } = useQuery(QUESTIONS);
   // NOTE: I'm handling everything here with useState because it was a quick way to handle it. I considered using a context/reducer combo, but thought it might be overkill for such a small app.
-  const [questionCount, setQuestionCount] = useState<number>(0);
   const [correctAnswerCount, setCorrectAnswerCount] = useState<number>(0);
   const [wrongAnswerCount, setWrongAnswerCount] = useState<number>(0);
+  const questionCount = correctAnswerCount + wrongAnswerCount;
 
   const handleRestartQuiz = () => {
     refetch();
-    setQuestionCount(0);
     setCorrectAnswerCount(0);
     setWrongAnswerCount(0);
   };
@@ -49,7 +48,6 @@ export const App: React.FC = () => {
         <Question
           questions={data.questions}
           questionCount={questionCount}
-          setQuestionCount={setQuestionCount}
           correctAnswerCount={correctAnswerCount}
           setCorrectAnswerCount={setCorrectAnswerCount}
           wrongAnswerCount={wrongAnswerCount}
