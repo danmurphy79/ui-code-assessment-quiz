@@ -5,7 +5,6 @@ import { formatString, getAllAnswers } from "../../helpers";
 export interface QuestionProps {
   questions: Array<any>;
   questionCount: number;
-  setQuestionCount: Dispatch<SetStateAction<number>>;
   correctAnswerCount: number;
   setCorrectAnswerCount: Dispatch<SetStateAction<number>>;
   wrongAnswerCount: number;
@@ -22,7 +21,6 @@ export interface CurrentQuestionProps {
 const Question: React.FC<QuestionProps> = ({
   questions,
   questionCount,
-  setQuestionCount,
   correctAnswerCount,
   setCorrectAnswerCount,
   wrongAnswerCount,
@@ -68,7 +66,6 @@ const Question: React.FC<QuestionProps> = ({
     } else {
       setWrongAnswerCount(wrongAnswerCount + 1);
     }
-    setQuestionCount(questionCount + 1);
     setCurrentQuestion(questions[questionCount + 1]);
     setAnswer("");
   };
