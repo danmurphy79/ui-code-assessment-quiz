@@ -1,6 +1,8 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import { shuffle } from "lodash";
 import { formatString, getAllAnswers } from "../../helpers";
+import RadioInput from "./RadioInput";
+import TextInput from "./TextInput";
 
 export interface QuestionProps {
   questions: Array<any>;
@@ -84,46 +86,20 @@ const Question: React.FC<QuestionProps> = ({
         <div style={{ marginBottom: "28px" }}>
           {answers.map((answer, i) => {
             return (
-              <div
-                key={i}
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 100,
-                  marginBottom: "10px",
-                }}
-              >
-                <label>
-                  <input
-                    type="radio"
-                    name={`answer${i}`}
-                    value={answer}
-                    checked={chosenAnswer === answer}
-                    onChange={handleAnswerChange}
-                    style={{ marginLeft: 0, marginRight: "5px" }}
-                  />
-                  {answer}
-                </label>
-              </div>
+              <RadioInput
+                answer={answer}
+                chosenAnswer={chosenAnswer}
+                handleAnswerChange={handleAnswerChange}
+                index={i}
+              />
             );
           })}
         </div>
       ) : (
-        <input
-          onChange={handleAnswerChange}
-          type="text"
-          value={chosenAnswer}
-          style={{
-            width: "100%",
-            padding: "12px 20px",
-            margin: "8px 0",
-            display: "inline-block",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxSizing: "border-box",
-            fontSize: "16px",
-            marginBottom: "28px",
-          }}
-        ></input>
+        <TextInput
+          chosenAnswer={chosenAnswer}
+          handleAnswerChange={handleAnswerChange}
+        />
       )}
       <button
         style={{
