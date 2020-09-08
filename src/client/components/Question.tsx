@@ -1,6 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import { shuffle } from "lodash";
 import { formatString, getAllAnswers } from "../../helpers";
+import Button from "./Button";
 import RadioInput from "./RadioInput";
 import TextInput from "./TextInput";
 
@@ -101,20 +102,7 @@ const Question: React.FC<QuestionProps> = ({
           handleAnswerChange={handleAnswerChange}
         />
       )}
-      <button
-        style={{
-          borderRadius: 0,
-          padding: "10px 20px",
-          backgroundColor: "#1e70dd",
-          border: "none",
-          color: "#fff",
-          fontSize: "16px",
-          fontWeight: "lighter",
-        }}
-        type="submit"
-      >
-        Next
-      </button>
+      <Button text="Next" />
     </form>
   );
 };

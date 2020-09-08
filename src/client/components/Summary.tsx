@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 
 export interface SummaryProps {
   correctAnswerCount: number;
@@ -35,20 +36,7 @@ const Summary: React.FC<SummaryProps> = ({
           Final Score: <span style={{ fontWeight: 900 }}>{score}%</span>
         </p>
       </div>
-      <button
-        style={{
-          borderRadius: 0,
-          padding: "10px 20px",
-          backgroundColor: "#1e70dd",
-          border: "none",
-          color: "#fff",
-          fontSize: "16px",
-          fontWeight: "lighter",
-        }}
-        onClick={handleRestartQuiz}
-      >
-        Restart Quiz
-      </button>
+      <Button onClick={handleRestartQuiz} text="Restart Quiz" />
     </div>
   );
 };
